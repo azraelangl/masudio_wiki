@@ -8,7 +8,7 @@
 
   <body>
     <div class="subject">
-        {{ wiki.path }}
+        {{ wiki.path }} | #{{ wiki.revision }}
         <div align="right">
           <a href="/wiki/_edit/{{ wiki.path.split('/')[1] }}">Edit Page</a> | <a href="/wiki/_history/{{ wiki.path.split('/')[1] }}">History</a> | <a href="/wiki/log{{ link }}">Log{{ link }}</a>
         </div>

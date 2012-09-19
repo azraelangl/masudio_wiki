@@ -12,6 +12,16 @@ from google.appengine.ext import db
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
+def add_wiki_revision(path, content):
+	last_revised_wiki = Wiki.all().filter('path = ', path).order('-revision').get()
+	if last_revised_wiki is None:
+		wiki = Wiki(path = path, content = content, revision = 1)
+	else:
+		revision = last_revised_wiki.revision + 1
+		wiki = Wiki(path = path, content = content, revision = revision)
+
+	wiki.put()
+
 SECRET = 'imsosecret'
 def hash_str(s):
         return hmac.new(SECRET, s).hexdigest()
@@ -55,6 +65,7 @@ class User(db.Model):
 
 class Wiki(db.Model):
 	path = db.StringProperty(required = True)
+	revision = db.IntegerProperty(required = True)
 	content = db.TextProperty(required = True)
 	created = db.DateTimeProperty(auto_now_add = True)
 
@@ -84,7 +95,7 @@ class Welcome(Handler):
 
 class WikiPage(Handler):
 	def get(self, path):
-		wiki = Wiki.gql("Where path = '" + path + "' LIMIT 1")
+		wiki = Wiki.all().filter("path =", path).order("-revision")
 		wiki = wiki.get()
 		username = self.request.cookies.get("username")
 		username = check_secure_val(username)
@@ -97,11 +108,10 @@ class WikiPage(Handler):
 			self.render("wiki_page.html", wiki = wiki, link = link)
 		else:
 			if username:
-				wiki = Wiki(path = path, content = 'Enter content here')
+				add_wiki_revision(path, 'Enter content here')
 			else:
-				wiki = Wiki(path = path, content = 'Enter content here')
+				add_wiki_revision(path, 'Enter content here')
 				
-			wiki.put()
 			self.redirect("/wiki/_edit" + path)
 
 class EditPage(Handler):
@@ -109,7 +119,7 @@ class EditPage(Handler):
 		username = self.request.cookies.get("username")
 		username = check_secure_val(username)
 		if username:
-			wiki = Wiki.gql("Where path = '" + path + "' LIMIT 1")
+			wiki = Wiki.all().filter("path =", path).order("-revision")
 			wiki = wiki.get()
 			if wiki:
 				self.render("edit_wiki_page.html", wiki = wiki)
@@ -120,11 +130,10 @@ class EditPage(Handler):
 
 	def post(self, path):
 		content = self.request.get("content")
-		wiki = Wiki.gql("Where path = '" + path + "' LIMIT 1")
+		wiki = Wiki.all().filter("path =", path).order("-revision")
 		wiki = wiki.get()
 		if wiki:
-			wiki.content = content
-			wiki.put()
+			add_wiki_revision(path, content)
 
 		self.redirect("/wiki" + path)
 
