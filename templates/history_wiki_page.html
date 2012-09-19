@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title class="main-title">masudio's blog</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css"/>
+  </head>
+
+  <body>
+    <div class="subject">
+        {{ path }}
+        <div align="right">
+          <a href="/wiki/_edit/{{ path.split('/')[1] }}">Edit Page</a> | <a href="/wiki/_history/{{ path.split('/')[1] }}">History</a> | <a href="/wiki/log{{ link }}">Log{{ link }}</a>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="content">
+      {% for wiki in revisions %}
+        {{ wiki.path }} | { wiki.content[0,10] | {{ wiki.created }}
+        <br>
+      {% endfor %}
+    </div>
+  </body>
+</html>

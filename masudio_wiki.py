@@ -139,7 +139,15 @@ class EditPage(Handler):
 
 class HistoryPage(Handler):
 	def get(self, path):
-		self.error(404)
+		username = self.request.cookies.get("username")
+		username = check_secure_val(username)
+		if username:
+			link = "out"
+		else:
+			link = "in"
+
+		revisions = Wiki.all().filter("path =", path).order("-revision")
+		self.render("history_wiki_page.html", revisions = revisions, path = path, link = link)
 
 class LogIn(Handler):
         def get(self):
