@@ -1,0 +1,55 @@
+<div class="login-area">
+  <h1>Sign Up</h1>
+  <br>
+  <form method="POST">
+	  <table>
+	    <tr>
+	      <td>
+		<label>Username</label>
+	      </td>
+	      <td>
+		<input type="text" name="username" value="{{given_username}}"/>
+	      </td>
+	      <td>
+		<label style="color:red">{{username_error}}</label>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		<label>Password</label>
+	      </td>
+	      <td>
+		<input type="password" name="password" value=""/>
+	      </td>
+	      <td>
+		<label style="color:red">{{password_error}}</label>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		<label>Verify</label>
+	      </td>
+	      <td>
+		<input type="password" name="verify" value=""/>
+	      </td>
+	      <td>
+		<label style="color:red">{{verify_error}}</label>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		<label>Email(Optional)</label>
+	      </td>
+	      <td>
+		<input type="text" name="email" value="{{given_email}}"/>
+	      </td>
+	      <td>
+		<label style="color:red">{{email_error}}</label>
+	      </td>
+	    </tr>
+	  </table>
+	  <br>
+	  <input type="Submit" value="Submit"/>
+  </form>
+  <a href="/wiki/login">Login here</a>
+</div>

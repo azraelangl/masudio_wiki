@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title class="main-title">masudio's blog</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css"/>
+  </head>
+
+  <body>
+    <h1>masudio's blog</h1>
+
+    {% for entry in entries %}
+      {{ entry.render() | safe }}
+      <br><br>
+    {% endfor %}
+
+    Queried {{ seconds }} seconds ago
+  </body>
+</html>

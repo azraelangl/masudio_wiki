@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title class="main-title">masudio's wiki</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css"/>
+  </head>
+
+  <body>
+    <div class="subject">
+        {{ wiki.path }}
+        <div align="right">
+          <a href="/wiki{{ wiki.path }}">View Page</a> | <a href="/wiki/_history/{{ wiki.path.split('/')[2] }}">History</a> | <a href="/wiki/logout">Logout</a>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <form method="POST">
+      <input type="hidden" name="path" value="{{ wiki.path}}"/>
+      <input type="text" name="content" value="{{wiki.content}}"/>
+      <br>
+      <input type="Submit" value="Update"/>
+    </form>
+  </body>
+</html>
+
