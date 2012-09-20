@@ -95,7 +95,11 @@ class Welcome(Handler):
 
 class WikiPage(Handler):
 	def get(self, path):
-		wiki = Wiki.all().filter("path =", path).order("-revision")
+		revision = self.request.get("rvn")
+		if revision.isdigit():
+			wiki = Wiki.all().filter("path =", path).filter("revision =", int(revision))
+		else:
+			wiki = Wiki.all().filter("path =", path).order("-revision")
 		wiki = wiki.get()
 		username = self.request.cookies.get("username")
 		username = check_secure_val(username)
@@ -110,8 +114,8 @@ class WikiPage(Handler):
 			if username:
 				add_wiki_revision(path, 'Enter content here')
 			else:
-				add_wiki_revision(path, 'Enter content here')
-				
+				self.redirect("/wiki/signup")
+
 			self.redirect("/wiki/_edit" + path)
 
 class EditPage(Handler):

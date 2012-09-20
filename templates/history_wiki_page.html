@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title class="main-title">masudio's blog</title>
+    <title class="main-title">masudio's wiki</title>
     <link rel="stylesheet" type="text/css" href="/static/main.css"/>
   </head>
 
@@ -17,7 +17,7 @@
     <hr>
     <div class="content">
       {% for wiki in revisions %}
-        {{ wiki.path }} | { wiki.content[0,10] | {{ wiki.created }}
+        {{ wiki.path }} | {{ wiki.content }} | {{ wiki.created }} | <a href="/wiki{{ path }}?rvn={{ wiki.revision }}">#{{ wiki.revision }}</a>
         <br>
       {% endfor %}
     </div>
